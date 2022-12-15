@@ -47,13 +47,13 @@ async function update(id, quote) {
 
 async function deletebyid(id) {
   const result = await db.query(
-    'DELETE quote(quote, author) WHERE id = $1',
+    'DELETE FROM quote WHERE id = $1 RETURNING *',
     [id]
   );
-  let message = 'Error in updating quote';
+  let message = 'Error in deleting quote';
 
   if (result.length) {
-    message = 'Quote updated successfully';
+    message = 'Quote deleted successfully';
   }
   return {message};
 }
