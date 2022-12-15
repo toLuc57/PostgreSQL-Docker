@@ -22,4 +22,27 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+/*PUT quotes */
+router.put('/:id', async function(req, res, next) {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    res.json(await quotes.update(id, data));
+  } catch(err) {
+    console.error(`Error while putting quotes `, err.message);
+    next(err);
+  }
+
+});
+
+router.delete('/:id', async function(req, res, next) {
+  try {
+    const id = req.params.id;
+    res.json(await quotes.deletebyid(id));
+  } catch(err) {
+    console.error(`Error while deleting quotes `, err.message);
+    next(err);
+  }
+});
+
 module.exports = router;

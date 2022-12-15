@@ -31,7 +31,36 @@ async function create(quote) {
   return {message};
 }
 
+async function update(id, quote) {
+  const result = await db.query(
+    'UPDATE quote SET quote=$1, author=$2 WHERE id=$3 RETURNING *',
+    [quote.quote, quote.author, id]
+  );
+  let message = 'Error in updating quote';
+
+  if (result.length) {
+    message = 'Quote updated successfully';
+  }
+
+  return {message};
+}
+
+async function deletebyid(id) {
+  const result = await db.query(
+    'DELETE quote(quote, author) WHERE id = $1',
+    [id]
+  );
+  let message = 'Error in updating quote';
+
+  if (result.length) {
+    message = 'Quote updated successfully';
+  }
+  return {message};
+}
+
 module.exports = {
   getMultiple,
-  create
+  create,
+  update,
+  deletebyid
 }
